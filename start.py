@@ -11,6 +11,8 @@ import tweepy
 from tweepy import OAuthHandler
 #from textblob import TextBlob
 from sentiment_mod import Initialize
+import sentiment_mod
+
  
 class TwitterClient(object):
     
@@ -41,12 +43,17 @@ class TwitterClient(object):
             return tweets        
         except tweepy.TweepError as e:
             print("Error : " + str(e))
+
     
 def main():
     api = TwitterClient()
     tweets = api.get_tweets(count = 200)
 #    print(tweets)
-    Initialize.init_test_tweets(tweets)
+    #Initialize.test_tweets_init = Initialize.init_test_tweets(tweets)
+    Initialize.test_tweets_start.extend(tweets)
+    sentiment_mod.main()
+
+
     
     
 if __name__ == "__main__":
