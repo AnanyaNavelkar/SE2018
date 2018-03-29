@@ -94,8 +94,8 @@ def main():
     training_set = nltk.classify.apply_features(Initialize.extract_features, init_train)
     # print(training_set[1:4])
 
-    classifier = nltk.NaiveBayesClassifier.train(training_set)
-
+    # classifier = nltk.NaiveBayesClassifier.train(training_set)
+    #
     # save_classifier = open("naivebayes.pickle", "wb")
     # pickle.dump(classifier, save_classifier)
     # save_classifier.close()
@@ -108,7 +108,7 @@ def main():
     #print(classifier.classify(Initialize.extract_features(tweet.split())))
 
     for tweet_split in init_test:
-        dist = classifier.prob_classify(Initialize.extract_features(tweet_split))
+        dist = classifier_pkl.prob_classify(Initialize.extract_features(tweet_split))
         pos = dist.prob("positive")
         neg = dist.prob("negative")
 
