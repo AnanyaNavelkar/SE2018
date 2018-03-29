@@ -3,24 +3,25 @@
 """
 Created on Fri Mar 23 20:06:39 2018
 
-@author: abha
+@author: Abha Mutalik
 """
 import nltk
 import pandas as pd
 import re
+import pickle
 
-
-
-init_train =[]
+init_train = []
 word_features = []
+init_test = []
+sentiment_list = []
+
+
 class Initialize:
-
     test_tweets_start = []
-
 
     def init_test_tweets(self, tweets):
         test_tweets = []
-        for(text) in tweets:
+        for (text) in tweets:
             words_filtered = [e.lower() for e in text.split() if len(e) >= 3]
             test_tweets.append((words_filtered))
         # print(test_tweets[1:4])
@@ -28,12 +29,12 @@ class Initialize:
 
     def init_train_tweets(self, tweets):
         train_tweets = []
-        for (text, target) in tweets:
+        for (target, text) in tweets:
             words_filtered = [e.lower() for e in text.split() if len(e) >= 3]
             if (target == 0):
                 target = 'negative'
-            elif (target == 2):
-                target = 'neutral'
+            # elif (target == 2):
+            #     target = 'neutral'
             else:
                 target = 'positive'
             train_tweets.append((words_filtered, target))
@@ -53,60 +54,78 @@ class Initialize:
 
     def extract_features(document):
         document_words = set(document)
+        # stemmer = nltk.SnowballStemmer("english")
         features = {}
         for word in word_features:
+            # word = stemmer.stem(word)
             features['contains(%s)' % word] = (word in document_words)
         return features
 
-    def __init__(self, tweets):     #training
+    def __init__(self, tweets):  # training
         inittrain = self.init_train_tweets(tweets)
         init_train.extend(inittrain)
-        #inittest = self.init_test_tweets(self.test_tweets_start)    #UNCOMMENT THIS
+        inittest = self.init_test_tweets(self.test_tweets_start)    #UNCOMMENT THIS
 
-        inittest = [
-            ['the', 'would', 'safer', 'place', 'thousands', 'guns', 'weren', 'sold', 'every', 'day', 'without',
-             'background', 'checks'],
-            ['donald', 'trump', 'takes', 'hard', 'look', 'himself', 'new', 'simpsons', 'sketch'],
-            ['desperate', 'for', 'victory', 'aussies', 'back', 'cheating', 'suspected', 'ball', 'tampering', 'bancroft',
-             'caught', 'tape', 'cau']]    #COMMENT THIS
-
-
-        #features_train = self.get_words_features(inittrain)
+        # inittest = [
+        #     ['the', 'would', 'safer', 'place', 'thousands', 'guns', 'weren', 'sold', 'every', 'day', 'without',
+        #      'background', 'checks'],
+        #     ['donald', 'trump', 'takes', 'hard', 'look', 'himself', 'new', 'simpsons', 'sketch'],
+        #     ['desperate', 'for', 'victory', 'aussies', 'back', 'cheating', 'suspected', 'ball', 'tampering', 'bancroft',
+        #      'caught', 'tape', 'cau']]  # COMMENT THIS
+        init_test.extend(inittest)
+        # features_train = self.get_words_features(inittrain)
         word_features.extend(self.get_words_features(inittrain))
-        #training_set = nltk.classify.apply_features(extract_features(), inittrain)
-        #print(training_set[1:4])
+        # training_set = nltk.classify.apply_features(extract_features(), inittrain)
+        # print(training_set[1:4])
 
-        #print(self.extract_features(inittrain))
-
-
-
-
-
-
+        # print(self.extract_features(inittrain))
 
 
 def main():
+    file = r'/home/abha/SE2018/training.txt'
+    df1 = pd.read_csv(file, sep='\t',
+                      names=["target", "text"])
+    # df1 = df[['text', 'target']]
 
-    file = r'/home/abha/SE-Project-Twitzee-datasets/traintweets.csv'
-    df = pd.read_csv(file,
-                    encoding='cp1252',
-                    names = ["target", "id", "date", "flag", "user", "text"])
-    df1 = df[['text', 'target']]
 
     tweets = df1.values.tolist()
 
     Initialize(tweets)
     training_set = nltk.classify.apply_features(Initialize.extract_features, init_train)
-    print(training_set[1:4])
+    # print(training_set[1:4])
+
+    classifier = nltk.NaiveBayesClassifier.train(training_set)
+
+    # save_classifier = open("naivebayes.pickle", "wb")
+    # pickle.dump(classifier, save_classifier)
+    # save_classifier.close()
+
+    classifier_pkl_opn = open("naivebayes.pickle", "rb")
+    classifier_pkl = pickle.load(classifier_pkl_opn)
+
+    # print(classifier.show_most_informative_features(32))
+    # tweet = 'I go to school'
+    #print(classifier.classify(Initialize.extract_features(tweet.split())))
+
+    for tweet_split in init_test:
+        dist = classifier.prob_classify(Initialize.extract_features(tweet_split))
+        pos = dist.prob("positive")
+        neg = dist.prob("negative")
 
 
+        for label in dist.samples():
+             print("%s: %f" % (label, dist.prob(label)))
+        # print(pos)
+        # sentiment = ''
+        if((pos - neg) > 0.35):
+             sentiment_list.append("positive")
+        elif((neg - pos) > 0.35):
+             sentiment_list.append("negative")
+        else:
+             sentiment_list.append("neutral")
+    # print(sentiment_list)
+    dictionary = dict(zip(Initialize.test_tweets_start, sentiment_list))
+    print(dictionary)
 
 
-
-    
-    
 if __name__ == "__main__": main()
-
-    
-    
-    

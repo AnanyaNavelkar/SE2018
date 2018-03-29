@@ -47,10 +47,11 @@ class TwitterClient(object):
     
 def main():
     api = TwitterClient()
-    tweets = api.get_tweets(count = 200)
+    tweets = api.get_tweets(count = 10)
 #    print(tweets)
     #Initialize.test_tweets_init = Initialize.init_test_tweets(tweets)
     Initialize.test_tweets_start.extend(tweets)
+    # print(Initialize.test_tweets_start)
     sentiment_mod.main()
 
 
