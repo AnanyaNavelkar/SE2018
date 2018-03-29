@@ -34,7 +34,7 @@ class TwitterClient(object):
     def clean_tweet(self, tweet):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
     
-    def get_tweets(self, count = 10):       
+    def get_tweets_self(self, count = 10):
         tweets = []
         try:
             fetched_tweets = self.api.home_timeline(count = count)
@@ -44,15 +44,49 @@ class TwitterClient(object):
         except tweepy.TweepError as e:
             print("Error : " + str(e))
 
+    def get_tweets_other(self, count = 10, name = ''):
+        tweets = []
+        try:
+            fetched_tweets = self.api.user_timeline(screen_name = name, count = count)
+            for tweet in fetched_tweets:
+                tweets.append(self.clean_tweet(tweet.text))
+            return tweets
+        except tweepy.TweepError as e:
+            print("Error : " + str(e))
+
+    def get_trends(self):
+        trendsName = []
+        trends1 = self.api.trends_place(23424848)  # 23424848 is the WOEID for India
+        data = trends1[0]
+        trends = data['trends']
+        for trend in trends:
+            trendsName.append(trend['name'])
+        return trendsName[:10]
     
 def main():
     api = TwitterClient()
-    tweets = api.get_tweets(count = 10)
+    choice = 1
+    if(choice == 1):    #self timeline
+        tweets = api.get_tweets_self(count=10)
+        Initialize.test_tweets_start.extend(tweets)
+        # print(Initialize.test_tweets_start)
+        analyzed = sentiment_mod.main()
+        print(analyzed)
+    elif(choice == 2):  #other timeline
+        tweets = api.get_tweets_other(name='iamsrk', count=10)
+        Initialize.test_tweets_start.extend(tweets)
+        # print(Initialize.test_tweets_start)
+        analyzed = sentiment_mod.main()
+    else:   #trends
+        trends = api.get_trends()
+        print(trends)
+
+
+
+    # tweets = api.get_tweets(count = 10)
 #    print(tweets)
     #Initialize.test_tweets_init = Initialize.init_test_tweets(tweets)
-    Initialize.test_tweets_start.extend(tweets)
-    # print(Initialize.test_tweets_start)
-    sentiment_mod.main()
+
 
 
     

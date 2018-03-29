@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="24617f98-21f2-44ed-9e6e-a6da2a893865" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/naivebayes.pickle" afterPath="$PROJECT_DIR$/naivebayes.pickle" />
       <change beforePath="$PROJECT_DIR$/sentiment_mod.py" afterPath="$PROJECT_DIR$/sentiment_mod.py" />
+      <change beforePath="$PROJECT_DIR$/start.py" afterPath="$PROJECT_DIR$/start.py" />
+      <change beforePath="$PROJECT_DIR$/training.txt" afterPath="$PROJECT_DIR$/training.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,8 +20,8 @@
       <file leaf-file-name="start.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/start.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="49" column="38" lean-forward="false" selection-start-line="49" selection-start-column="38" selection-end-line="49" selection-end-column="38" />
+            <state relative-caret-position="963">
+              <caret line="73" column="22" lean-forward="false" selection-start-line="73" selection-start-column="22" selection-end-line="73" selection-end-column="22" />
               <folding>
                 <element signature="e#107#116#0" expanded="true" />
               </folding>
@@ -29,8 +32,8 @@
       <file leaf-file-name="sentiment_mod.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sentiment_mod.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="110" column="29" lean-forward="false" selection-start-line="110" selection-start-column="29" selection-end-line="110" selection-end-column="29" />
+            <state relative-caret-position="104">
+              <caret line="84" column="42" lean-forward="false" selection-start-line="84" selection-start-column="42" selection-end-line="84" selection-end-column="42" />
               <folding>
                 <element signature="e#114#125#0" expanded="true" />
               </folding>
@@ -176,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522340819443</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="pickle">
+      <created>1522341527439</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1522341527439</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -232,7 +242,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="pickle created, data trained, my timeline tweets analyzed" />
-    <option name="LAST_COMMIT_MESSAGE" value="pickle created, data trained, my timeline tweets analyzed" />
+    <MESSAGE value="pickle" />
+    <option name="LAST_COMMIT_MESSAGE" value="pickle" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -281,8 +292,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/start.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="49" column="38" lean-forward="false" selection-start-line="49" selection-start-column="38" selection-end-line="49" selection-end-column="38" />
+        <state relative-caret-position="963">
+          <caret line="73" column="22" lean-forward="false" selection-start-line="73" selection-start-column="22" selection-end-line="73" selection-end-column="22" />
           <folding>
             <element signature="e#107#116#0" expanded="true" />
           </folding>
@@ -291,8 +302,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sentiment_mod.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="110" column="29" lean-forward="false" selection-start-line="110" selection-start-column="29" selection-end-line="110" selection-end-column="29" />
+        <state relative-caret-position="104">
+          <caret line="84" column="42" lean-forward="false" selection-start-line="84" selection-start-column="42" selection-end-line="84" selection-end-column="42" />
           <folding>
             <element signature="e#114#125#0" expanded="true" />
           </folding>
