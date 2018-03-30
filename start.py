@@ -38,22 +38,22 @@ class TwitterClient(object):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
     
     def get_tweets_self(self, count = 10):
-        tweets = []
+        tweets_self = []
         try:
             fetched_tweets = self.api.home_timeline(count = count)
             for tweet in fetched_tweets:
-                tweets.append(self.clean_tweet(tweet.text))                
-            return tweets        
+                tweets_self.append(self.clean_tweet(tweet.text))
+            return tweets_self
         except tweepy.TweepError as e:
             print("Error : " + str(e))
 
-    def get_tweets_other(self, count = 10, name = ''):
-        tweets = []
+    def get_tweets_other(self, name = '', count = 10):
+        tweets_other = []
         try:
             fetched_tweets = self.api.user_timeline(screen_name = name, count = count)
             for tweet in fetched_tweets:
-                tweets.append(self.clean_tweet(tweet.text))
-            return tweets
+                tweets_other.append(self.clean_tweet(tweet.text))
+            return tweets_other
         except tweepy.TweepError as e:
             print("Error : " + str(e))
 
@@ -74,17 +74,18 @@ def handle_tweets():
     user_param = req_data['user_param']
     if(choice == 1):    #self timeline
         tweets = api.get_tweets_self(count=10)
+        Initialize.test_tweets_start.clear()
         Initialize.test_tweets_start.extend(tweets)
         # print(Initialize.test_tweets_start)
-        analyzed = sentiment_mod.main()
-
-        return jsonify(analyzed)
+        analyzed1 = sentiment_mod.main()
+        return jsonify({'self_analyzed' : analyzed1})
     elif(choice == 2):  #other timeline
         tweets = api.get_tweets_other(name=user_param, count=10)
+        Initialize.test_tweets_start.clear()
         Initialize.test_tweets_start.extend(tweets)
         # print(Initialize.test_tweets_start)
-        analyzed = sentiment_mod.main()
-        return jsonify(analyzed)
+        analyzed2 = sentiment_mod.main()
+        return jsonify({'other_analyzed' : analyzed2})
 
     else:   #trends
         trends = api.get_trends()

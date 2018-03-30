@@ -85,8 +85,6 @@ def main():
     file = r'/home/abha/SE2018/amazon_cells_labelled.txt'
     df1 = pd.read_csv(file, sep='\t',
                       names=["text", "target"])
-    # df1 = df[['text', 'target']]
-
 
     tweets = df1.values.tolist()
 
