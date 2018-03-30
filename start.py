@@ -88,7 +88,7 @@ def handle_tweets():
 
     else:   #trends
         trends = api.get_trends()
-        return jsonify(trends)
+        return jsonify({'trends' : trends})
     
 if __name__ == "__main__":
     # calling main function
