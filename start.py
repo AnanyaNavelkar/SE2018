@@ -12,6 +12,9 @@ from tweepy import OAuthHandler
 #from textblob import TextBlob
 from sentiment_mod import Initialize
 import sentiment_mod
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
 
  
 class TwitterClient(object):
@@ -62,35 +65,34 @@ class TwitterClient(object):
         for trend in trends:
             trendsName.append(trend['name'])
         return trendsName[:10]
-    
-def main():
+
+@app.route("/" , methods=['POST'])
+def handle_tweets():
     api = TwitterClient()
-    choice = 1
+    req_data = request.get_json()
+    choice = req_data['choice']
+    user_param = req_data['user_param']
     if(choice == 1):    #self timeline
         tweets = api.get_tweets_self(count=10)
         Initialize.test_tweets_start.extend(tweets)
         # print(Initialize.test_tweets_start)
         analyzed = sentiment_mod.main()
-        print(analyzed)
+
+        return jsonify(analyzed)
     elif(choice == 2):  #other timeline
-        tweets = api.get_tweets_other(name='iamsrk', count=10)
+        tweets = api.get_tweets_other(name=user_param, count=10)
         Initialize.test_tweets_start.extend(tweets)
         # print(Initialize.test_tweets_start)
         analyzed = sentiment_mod.main()
+        return jsonify(analyzed)
+
     else:   #trends
         trends = api.get_trends()
-        print(trends)
+        # print(trends)
+        return dict([i, trends.count(i)] for i in trends)
 
-
-
-    # tweets = api.get_tweets(count = 10)
-#    print(tweets)
-    #Initialize.test_tweets_init = Initialize.init_test_tweets(tweets)
-
-
-
-    
     
 if __name__ == "__main__":
     # calling main function
-    main()
+    # main()
+    app.run(debug=True, port=5000)
